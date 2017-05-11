@@ -26,7 +26,7 @@ function success(position) {
   
   
 function getWeather(callback) {
-    var weather = 'http://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + long + '&cluster=yes&units=imperial&format=json&APPID=da49eff038e1cb3ed2a15aff35650a85'
+    var weather = 'https://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + long + '&cluster=yes&units=imperial&format=json&APPID=da49eff038e1cb3ed2a15aff35650a85'
     $.ajax({
       dataType: "json",
       url: weather,
@@ -38,7 +38,7 @@ function getWeather(callback) {
 // get data:
 getWeather(function (data) {
    var temperature = Math.round(data.main.temp);
-    $("#picture").html("<img src= http://openweathermap.org/img/w/" + data.weather[0].icon + ".png>").toggleClass("fade-in");
+    $("#picture").html("<img src= https://openweathermap.org/img/w/" + data.weather[0].icon + ".png>").toggleClass("fade-in");
     $("#weather").html(data.weather[0].main).toggleClass("fade-in");
     $("#in").html("in").toggleClass("fade-in");
     $("#location").html(data.name).toggleClass("fade-in");
