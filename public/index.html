@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Weather App</title>
+  
+  
+  <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
+
+      <link rel="stylesheet" href="css/style.css">
+
+  
+</head>
+
+<body>
+  <body>
+  <div class="local-weather">
+    <h2>Weather App</h2>
+    <div id = "picture"><h3><button class="btn btn-lg btn-success" onclick="getCoordinatesAndWeather()">Click Here to Share Your Location and Get the Current Weather</button></h3>
+      </div>
+    <span id = "weather"></span>
+    <span id = "in"></span>
+    <span id = "location"></span>
+    <div id ="temperature"></div>
+  </div>
+  <button id="celcius"  class="btn btn-lg btn-default my-button" onclick="celciusSwitch()">Celcius</button>
+  <button id="fahrenheit"  class="btn btn-lg btn-default my-button" onclick="fahrenheitSwitch()">Fahrenheit</button>
+  <p style="padding-top: 1%;"></p>
+<div id = "thermometer-background">
+  <div id="gray-bar">
+    <div id="red-bar">
+    </div>
+  </div>
+  <div id="numbers">
+    <span id="left-num" style="float: left; margin-left: 5%;">0</span>
+    <span id="middle-num" style="text-align: center;">70</span>
+    <span id="right-num" style="float: right; margin-right: 5%;">140</span>
+  </div>
+
+</div>
+</body>
+  <script src='http://maps.googleapis.com/maps/api/js'></script>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js'></script>
+
+    <script src="js/index.js"></script>
+
+</body>
+</html>
