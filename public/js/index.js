@@ -1,78 +1,65 @@
-$("#celcius").hide();
-$("#fahrenheit").hide();
-$("#thermometer-background").hide();
-$("#gray-bar").hide();
-$("#numbers").hide();
-
-var elMap = document.getElementById('coordinates');
-var msg ='Sorry, we were unable to get your location.';
-
-
-
-function getCoordinatesAndWeather() {
-if (Modernizr.geolocation) {
-  navigator.geolocation.getCurrentPosition(success, fail);
-  elMap.textContent = 'Checking location...';
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-else {
-  elMap.textContent = msg;
-}
-
-function success(position) {
-  msg = "";
-  var lat = position.coords.latitude;
-  var long = position.coords.longitude;
-  
-  
 function getWeather(callback) {
-    var weather = 'https://api.openweathermap.org/data/2.5/weather?lat=' + lat + '&lon=' + long + '&cluster=yes&units=imperial&format=json&APPID=da49eff038e1cb3ed2a15aff35650a85'
+
     $.ajax({
-      dataType: "json",
-      url: weather,
+      type: 'GET',
+      dataType: "jsonp",
+      url: 'http://marsweather.ingenology.com/v1/latest/?format=jsonp',
       success: callback
     });
 }
  
-
-// get data:
-getWeather(function (data) {
-   var temperature = Math.round(data.main.temp);
-    $("#picture").html("<img src= https://openweathermap.org/img/w/" + data.weather[0].icon + ".png>").toggleClass("fade-in");
-    $("#weather").html(data.weather[0].main).toggleClass("fade-in");
-    $("#in").html("in").toggleClass("fade-in");
-    $("#location").html(data.name).toggleClass("fade-in");
-    $("#temperature").html(Math.round(data.main.temp) + "° F").toggleClass("fade-in");
-  $("#celcius").show().toggleClass("fade-in");
-$("#fahrenheit").show().toggleClass("fade-in");
-  $("#thermometer-background").show().toggleClass("fade-in");
-$("#gray-bar").show().toggleClass("fade-in");
-$("#numbers").show().toggleClass("fade-in");
-    $("#red-bar").css('background', 'red').css({marginRight:(100 - (temperature / 140) * 100) + '%'}).toggleClass("fade-in");
-  
-fahr = $("#temperature").text().substring(0,2);
-celc = Math.round((fahr - 32) * (5/9));
-});
-  
-  elMap.innerHTML = msg;
-  initialize(position);
-}
-
-function fail(msg) {
-  elMap.textContent = msg;
-  console.log(msg.code);
-}
-
-}
-
 function celciusSwitch() {
-  $("#temperature").html(celc + "° C");
+
   $("#middle-num").html("21");
   $("#right-num").html("60");
 }
 
 function fahrenheitSwitch() {
-  $("#temperature").html(fahr + "° F");
+
   $("#middle-num").html("70");
   $("#right-num").html("140");
+}
+
+$(document).ready(function() {
+  
+getWeather(function (data) {
+   var minTemperature = data.report.min_temp_fahrenheit;
+   var maxTemperature = data.report.max_temp_fahrenheit;
+   var windSpeed = String(data.report.wind_speed);
+   var atmosphere = data.report.atmo_opacity;
+   $("#maxTemp").html("Maximum Temperature: " + maxTemperature + "° F").toggleClass("fade-in");
+    $("#minTemp").html("Minimum Temperature: " + minTemperature + "° F").toggleClass("fade-in"); 
+  $("#windSpeed").html("Wind Speed: " + capitalizeFirstLetter(windSpeed)).toggleClass("fade-in");
+  $("#atmosphere").html("Atmosphere: " + atmosphere).toggleClass("fade-in");
+    $("#green-bar").css('background', '#40ff00').css({marginRight: ((100 - (maxTemperature) / 4) - 50)  + '%'}).toggleClass("fade-in");
+  $("#yellow-bar").css('background', '#ffcc00').css({marginRight: ((100 - (minTemperature) / 4) - 50)  + '%'}).toggleClass("fade-in");
+  
+maxFahr = maxTemperature;
+maxCelc = Math.round((maxFahr - 32) * (5/9));
+  
+minFahr = minTemperature;
+minCelc = Math.round((minFahr - 32) * (5/9));
+});
+
+});
+
+
+function celciusSwitch() {
+  $("#maxTemp").html("Maximum Temperature: " + maxCelc + "° C");
+  $("#minTemp").html("Minimum Temperature: " + minCelc + "° C");
+  $("#left-num").html("-130");
+  $("#middle-num").html("-18");
+  $("#right-num").html("95");
+}
+
+function fahrenheitSwitch() {
+  $("#maxTemp").html("Maximum Temperature: " + maxFahr + "° F");
+  $("#minTemp").html("Minimum Temperature: " + minFahr + "° F");
+  $("#left-num").html("-200");
+  $("#middle-num").html("0");
+  $("#right-num").html("200");
 }
